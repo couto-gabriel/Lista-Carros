@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Lista Carros</string>
+    <string name="base_url">http://private-525ce1-icarrostest.apiary-mock.com/api/</string>
+    <string name="error_message_default">Algo deu errado</string>
+
+    <!-- Database -->
+    <string name="database_name">listacarros_database</string>
+
+    <!-- Vehicle List -->
+    <string name="button_retry">Tente novamente</string>
+    <string name="total_vehicles_result">carros encontrados</string>
+
+    <!-- Vehicle Detail -->
+    <string name="vehicle_detail_title">Detalhes do veículo</string>
+    <string name="vehicle_detail_year">Ano</string>
+    <string name="vehicle_detail_color">Cor</string>
+    <string name="vehicle_detail_gear">Câmbio</string>
+    <string name="vehicle_detail_fuel">Combustível</string>
+    <string name="vehicle_detail_doors">Portas</string>
+    <string name="vehicle_detail_itens_title">Itens</string>
+</resources>
