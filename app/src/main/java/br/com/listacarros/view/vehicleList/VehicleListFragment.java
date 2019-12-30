@@ -53,14 +53,17 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
     private RecyclerView.LayoutManager mLayoutManager;
     private LinearLayoutManager mLinearLayoutManager;
     private boolean mIsFirstRequest = true ;
+    private Activity mActivity;
     private Parcelable mListState;
     private static String LIST_STATE_KEY = "LIST_STATE_KEY";
     private MainActivity mMainActivity;
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        mActivity = (Activity) context;
     }
 
     public void setmIToolbarListener(IToolbarListener mIToolbarListener) {
@@ -71,7 +74,7 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentManager = getFragmentManager();
-        mVehicleListPresenter = new VehicleListPresenter(mContext, this, mFragmentManager);
+        mVehicleListPresenter = new VehicleListPresenter(mActivity, mContext, this, mFragmentManager);
         mMainActivity = new MainActivity();
         mMainActivity.setmIRestoreInstanceStateListener(this);
 

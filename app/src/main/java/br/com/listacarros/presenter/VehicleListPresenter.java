@@ -33,11 +33,13 @@ public class VehicleListPresenter implements IListaCarros.IPresenterVehicleList 
     private IListaCarros.IViewVehicleList mIViewVehicleList;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
+    private Activity mActivity;
 
-    public VehicleListPresenter(Context context, IListaCarros.IViewVehicleList IvehicleList, FragmentManager fragmentManager) {
+    public VehicleListPresenter(Activity activity, Context context, IListaCarros.IViewVehicleList IvehicleList, FragmentManager fragmentManager) {
         mContext = context;
         mIViewVehicleList = IvehicleList;
         mFragmentManager = fragmentManager;
+        mActivity = activity;
 
     }
 
@@ -198,7 +200,12 @@ public class VehicleListPresenter implements IListaCarros.IPresenterVehicleList 
                     requestVehicleList();
                 }
                 else{
-                  mIViewVehicleList.onFetchDataFromDatabase(vehicles);
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mIViewVehicleList.onFetchDataFromDatabase(vehicles);
+                        }
+                    });
 
                 }
             }
