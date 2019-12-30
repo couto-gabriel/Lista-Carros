@@ -90,8 +90,6 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
         mLinearLayoutManager.setSmoothScrollbarEnabled(true);
         mLayoutManager = mLinearLayoutManager;
 
-        mVehicleListPresenter.checkFirstRequest(mIsFirstRequest);
-
         return view;
     }
 

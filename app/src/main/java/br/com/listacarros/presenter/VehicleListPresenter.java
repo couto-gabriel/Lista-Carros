@@ -34,15 +34,14 @@ public class VehicleListPresenter implements IListaCarros.IPresenterVehicleList 
 
     @Override
     public void checkFirstRequest(boolean isFirstRequest){
-        if(isFirstRequest){
+        if(isFirstRequest) {
             isFirstRequest = false;
-            mIViewVehicleList.onCheckFirstRequest(isFirstRequest);
             requestVehicleList();
+            mIViewVehicleList.onCheckFirstRequest(isFirstRequest);
             return;
         }
         fetchDataFromDatabase();
         mIViewVehicleList.onCheckFirstRequest(isFirstRequest);
-
     }
 
     @Override
