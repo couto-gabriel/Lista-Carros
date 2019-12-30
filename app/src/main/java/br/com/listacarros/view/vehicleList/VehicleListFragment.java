@@ -90,6 +90,8 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
         mLinearLayoutManager.setSmoothScrollbarEnabled(true);
         mLayoutManager = mLinearLayoutManager;
 
+        mVehicleListPresenter.checkFirstRequest(mIsFirstRequest);
+
         return view;
     }
 
@@ -112,7 +114,6 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
     @Override
     public void onResume() {
         super.onResume();
-        mVehicleListPresenter.checkFirstRequest(mIsFirstRequest);
 
     }
 
@@ -226,7 +227,6 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
 
     @Override
     public void onFetchDataFromDatabase(List<Vehicle> vehicles) {
-        Log.d("GABRIEL", "FETCHED FROM DATABASE");
         Log.d("GABRIEL", "FETCHED FROM DATABASE");
 
         mProgressbar.setVisibility(View.GONE);
