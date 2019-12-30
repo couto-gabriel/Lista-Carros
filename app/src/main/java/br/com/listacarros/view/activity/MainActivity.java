@@ -13,6 +13,7 @@ import br.com.listacarros.R;
 import br.com.listacarros.presenter.IListaCarros;
 import br.com.listacarros.presenter.MainActivityPresenter;
 import br.com.listacarros.view.detail.VehicleDetailFragment;
+import br.com.listacarros.view.vehicleList.IRestoreInstanceStateListener;
 import br.com.listacarros.view.vehicleList.VehicleListFragment;
 
 public class MainActivity extends AppCompatActivity implements IListaCarros.IViewMainActivity, IToolbarListener {
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements IListaCarros.IVie
     private FragmentManager mFragmentManager;
     private VehicleListFragment mVehicleListFragment;
     private Toolbar mToolbar;
+    private IRestoreInstanceStateListener mIRestoreInstanceStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,12 @@ public class MainActivity extends AppCompatActivity implements IListaCarros.IVie
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mIRestoreInstanceStateListener.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
 
@@ -52,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements IListaCarros.IVie
             vehicleListFragment.setmIToolbarListener(this);
             return;
         }
+    }
+
+    public void setmIRestoreInstanceStateListener(IRestoreInstanceStateListener mIRestoreInstanceStateListener) {
+        this.mIRestoreInstanceStateListener = mIRestoreInstanceStateListener;
     }
 
     @Override

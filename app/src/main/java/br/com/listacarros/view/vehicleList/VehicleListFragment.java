@@ -1,7 +1,9 @@
 package br.com.listacarros.view.vehicleList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +30,13 @@ import br.com.listacarros.rx.RxBus;
 import br.com.listacarros.utils.LoadImageUtils;
 import br.com.listacarros.view.BaseFragment;
 import br.com.listacarros.view.activity.IToolbarListener;
+import br.com.listacarros.view.activity.MainActivity;
 import br.com.listacarros.view.detail.VehicleDetailFragment;
 import br.com.listacarros.view.vehicleList.adapter.IVehicleItemAdapterListener;
 import br.com.listacarros.view.vehicleList.adapter.VehicleListAdapter;
 import br.com.listacarros.view.vehicleList.adapter.VehicleViewHolder;
 
-public class VehicleListFragment extends BaseFragment implements IListaCarros.IViewVehicleList, IVehicleItemAdapterListener {
+public class VehicleListFragment extends BaseFragment implements IListaCarros.IViewVehicleList, IVehicleItemAdapterListener, IRestoreInstanceStateListener {
 
     private VehicleListAdapter mVehicleAdapter;
     private Context mContext;
@@ -50,6 +53,9 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
     private RecyclerView.LayoutManager mLayoutManager;
     private LinearLayoutManager mLinearLayoutManager;
     private boolean mIsFirstRequest = true ;
+    private Parcelable mListState;
+    private static String LIST_STATE_KEY = "LIST_STATE_KEY";
+    private MainActivity mMainActivity;
 
     @Override
     public void onAttach(Context context) {
@@ -66,8 +72,8 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
         super.onCreate(savedInstanceState);
         mFragmentManager = getFragmentManager();
         mVehicleListPresenter = new VehicleListPresenter(mContext, this, mFragmentManager);
-
-
+        mMainActivity = new MainActivity();
+        mMainActivity.setmIRestoreInstanceStateListener(this);
 
     }
 
@@ -94,6 +100,19 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mListState = mVehicleListPresenter.saveListState(mLinearLayoutManager);
+        outState.putParcelable(LIST_STATE_KEY, mListState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -105,19 +124,32 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
+
+        mVehicleListPresenter.restoreListState(mListState, mLayoutManager);
 
     }
 
     @Override
     public void onCheckFirstRequest(boolean isFirstRequest) {
         mIsFirstRequest = isFirstRequest;
+
+    }
+
+    @Override
+    public void onSaveListState() {
+        Log.d("GABRIEL", "onSaveListState: ");
+    }
+
+    @Override
+    public void onRestoreListState() {
+        Log.d("GABRIEL", "onRestoreListState: ");
+    }
+
+    @Override
+    public void onGetActivityRestoreInstanceState() {
+        Log.d("GABRIEL", "onGetActivityRestoreInstanceState: ");
 
     }
 
@@ -239,8 +271,21 @@ public class VehicleListFragment extends BaseFragment implements IListaCarros.IV
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        mListState = mVehicleListPresenter.saveListState(mLinearLayoutManager);
+
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mVehicleListPresenter.disposeWhenDestroy();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+        mListState = mVehicleListPresenter.getActivityRestoreInstanceState(savedInstanceState, LIST_STATE_KEY);
     }
 }

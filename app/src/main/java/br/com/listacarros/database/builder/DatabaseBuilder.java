@@ -14,7 +14,7 @@ public class DatabaseBuilder {
     public static ListaCarrosDatabase getInstance(Context context){
         if(mDatabaseInstance == null){
             mDatabaseInstance = Room.databaseBuilder(context, ListaCarrosDatabase.class,
-                    context.getResources().getString(R.string.database_name)).allowMainThreadQueries()
+                    context.getResources().getString(R.string.database_name))
                     .build();
         }
         return mDatabaseInstance;

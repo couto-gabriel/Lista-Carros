@@ -1,8 +1,12 @@
 package br.com.listacarros.presenter;
 
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -34,6 +38,9 @@ public interface IListaCarros{
         void fetchDataFromDatabase();
         void updateListToDatabase(List<Vehicle> vehicle);
         void checkFirstRequest(boolean isFirstRequest);
+        Parcelable saveListState(RecyclerView.LayoutManager linearLayoutManager);
+        void restoreListState(Parcelable listState, RecyclerView.LayoutManager layoutManager);
+        Parcelable getActivityRestoreInstanceState(Bundle state, String KEY);
     }
 
     interface IViewVehicleList{
@@ -49,6 +56,9 @@ public interface IListaCarros{
         void onFetchDataFromDatabase(List<Vehicle> vehicles);
         void onUpdateListToDatabase();
         void onCheckFirstRequest(boolean isFirstRequest);
+        void onSaveListState();
+        void onRestoreListState();
+        void onGetActivityRestoreInstanceState();
     }
 
     interface IPresenterVehicleDetail{
